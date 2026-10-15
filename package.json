@@ -22,5 +22,10 @@
   "dependencies": {
     "@faker-js/faker": "^10.2.0",
     "cypress": "^15.9.0"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^28.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "esbuild": "^0.28.2"
   }
 }
