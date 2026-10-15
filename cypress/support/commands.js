@@ -40,3 +40,15 @@ Cypress.Commands.add('login', (email, senha) => {
     cy.get('#terms-agreement').check()
     cy.get('#register-btn').click()
  })
+
+// App Action: faz o login pela API e grava no localStorage os mesmos dados
+// que a tela de login grava, evitando preencher o formulário em cada teste
+Cypress.Commands.add('loginApp', (email, senha) => {
+    cy.request('POST', 'api/login', { email: email, password: senha }).then(response => {
+        expect(response.status).to.equal(200)
+        window.localStorage.setItem('authToken', response.body.token)
+        window.localStorage.setItem('userId', response.body.id)
+        window.localStorage.setItem('userName', response.body.name)
+        window.localStorage.setItem('isAdmin', response.body.isAdmin)
+    })
+})

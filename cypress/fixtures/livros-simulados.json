@@ -1,0 +1,26 @@
+{
+  "books": [
+    {
+      "id": 901,
+      "title": "Livro Simulado Disponível",
+      "author": "Autor Teste EBAC",
+      "category": "Tecnologia",
+      "available_copies": 3,
+      "description": "Livro criado pelo Intercept para o teste."
+    },
+    {
+      "id": 902,
+      "title": "Livro Simulado Esgotado",
+      "author": "Autor Teste EBAC",
+      "category": "Ficção",
+      "available_copies": 0,
+      "description": "Livro sem exemplares disponíveis."
+    }
+  ],
+  "pagination": {
+    "total": 2,
+    "limit": 12,
+    "currentPage": 1,
+    "totalPages": 1
+  }
+}
