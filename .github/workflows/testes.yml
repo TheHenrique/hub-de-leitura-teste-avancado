@@ -1,0 +1,66 @@
+name: Testes Cypress
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Baixar o projeto de testes
+        uses: actions/checkout@v7
+
+      - name: Baixar o app Hub de Leitura
+        uses: actions/checkout@v7
+        with:
+          repository: fabioaraujoqa/hub-de-leitura
+          path: hub-de-leitura
+
+      - name: Configurar o Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Instalar e iniciar o Hub de Leitura
+        run: |
+          cd hub-de-leitura
+          npm ci --omit=dev
+          nohup npm start > app.log 2>&1 &
+
+      - name: Rodar os testes
+        uses: cypress-io/github-action@v7
+        with:
+          wait-on: http://localhost:3000
+          wait-on-timeout: 120
+
+      - name: Gerar o relatório
+        if: always()
+        run: |
+          npx mochawesome-merge "cypress/reports/*.json" > relatorio.json
+          npx marge relatorio.json --reportDir relatorio --reportFilename index
+
+      - name: Configurar o GitHub Pages
+        if: always()
+        uses: actions/configure-pages@v6
+
+      - name: Enviar o relatório
+        if: always()
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: relatorio
+
+      - name: Publicar no GitHub Pages
+        if: always()
+        id: deploy
+        uses: actions/deploy-pages@v5

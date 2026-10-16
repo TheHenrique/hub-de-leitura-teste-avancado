@@ -22,4 +22,12 @@ module.exports = defineConfig({
     baseUrl: "http://localhost:3000/",
     video: true
   },
+  // Gera um relatório JSON por arquivo de teste (juntados depois no GitHub Actions)
+  reporter: "mochawesome",
+  reporterOptions: {
+    reportDir: "cypress/reports",
+    overwrite: false,
+    html: false,
+    json: true
+  },
 });

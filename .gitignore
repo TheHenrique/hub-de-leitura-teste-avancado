@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 videos/
 screenshots/
+cypress/reports/
+relatorio/
+relatorio.json
